@@ -8,10 +8,13 @@
 import Foundation
 
 class CSVStrategy: StorageStrategy {
-    func save(items: [String: TodoItem], to filename: String) {
-        let fileURL = getDocumentsDirectory().appendingPathComponent(filename)
+    func save(items: [TodoItem], to filename: String) {
+        guard let fileURL = getDocumentsDirectory()?.appendingPathComponent(filename) else {
+            print("Failed to get documents directory")
+            return
+        }
         var csvArray: [String] = ["id,text,priority,deadline,isCompleted,creationDate,modificationDate"]
-        csvArray.append(contentsOf: items.values.map { $0.csv })
+        csvArray.append(contentsOf: items.map { $0.csv })
         let csvString = csvArray.joined(separator: "\n")
         
         do {
@@ -21,10 +24,13 @@ class CSVStrategy: StorageStrategy {
             print("Failed to save CSV file: \(error)")
         }
     }
-
-    func load(from filename: String) -> [String: TodoItem] {
-        let fileURL = getDocumentsDirectory().appendingPathComponent(filename)
-        var items: [String: TodoItem] = [:]
+    
+    func load(from filename: String) -> [TodoItem] {
+        guard let fileURL = getDocumentsDirectory()?.appendingPathComponent(filename) else {
+            print("Failed to get documents directory")
+            return []
+        }
+        var items: [TodoItem] = []
         
         do {
             let csvString = try String(contentsOf: fileURL, encoding: .utf8)
@@ -34,7 +40,7 @@ class CSVStrategy: StorageStrategy {
             }
             for csvLine in csvLines.dropFirst() {
                 if let item = TodoItem.fromCSV(csvLine) {
-                    items[item.id] = item
+                    items.append(item)
                 }
             }
             print("CSV file loaded from: \(fileURL.path)")
@@ -43,9 +49,8 @@ class CSVStrategy: StorageStrategy {
         }
         return items
     }
-
-    private func getDocumentsDirectory() -> URL {
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    
+    private func getDocumentsDirectory() -> URL? {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
     }
 }
-

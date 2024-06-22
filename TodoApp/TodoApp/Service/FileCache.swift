@@ -9,30 +9,32 @@ import Foundation
 
 
 protocol StorageStrategy {
-    func save(items: [String: TodoItem], to filename: String)
-    func load(from filename: String) -> [String: TodoItem]
+    func save(items: [TodoItem], to filename: String)
+    func load(from filename: String) -> [TodoItem]
 }
 
 class FileCache {
-    private(set) var items: [String: TodoItem] = [:]
+    private(set) var items: [TodoItem] = []
     private var strategy: StorageStrategy
-
+    
     init(strategy: StorageStrategy) {
         self.strategy = strategy
     }
-
+    
     func add(_ item: TodoItem) {
-        items[item.id] = item
+        if !items.contains(where: { $0.id == item.id }) {
+            items.append(item)
+        }
     }
-
+    
     func remove(by id: String) {
-        items.removeValue(forKey: id)
+        items.removeAll { $0.id == id }
     }
-
+    
     func save(to filename: String) {
         strategy.save(items: items, to: filename)
     }
-
+    
     func load(from filename: String) {
         items = strategy.load(from: filename)
     }
