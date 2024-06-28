@@ -13,11 +13,11 @@ protocol StorageStrategy {
     func load(from filename: String) -> [TodoItem]
 }
 
-class FileCache {
+class FileCache: ObservableObject {
     private(set) var items: [TodoItem] = []
     private var strategy: StorageStrategy
     
-    init(strategy: StorageStrategy) {
+    init(strategy: StorageStrategy = JSONStrategy()) {
         self.strategy = strategy
     }
     
