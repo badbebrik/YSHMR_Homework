@@ -47,7 +47,9 @@ extension TodoItem {
             modificationDate = nil
         }
         
-        return TodoItem(id: id, text: text, priority: priority, deadline: deadline, isCompleted: isCompleted, creationDate: creationDate, modificationDate: modificationDate)
+        let hexColor = dictionary["hexColor"] as? String ?? "FFFFF"
+        
+        return TodoItem(id: id, text: text, priority: priority, deadline: deadline, isCompleted: isCompleted, creationDate: creationDate, modificationDate: modificationDate, hexColor: hexColor)
     }
     
     var json: Any {
@@ -59,7 +61,8 @@ extension TodoItem {
             "id": id,
             "text": text,
             "creationDate": formatter.string(from: creationDate),
-            "isCompleted": isCompleted
+            "isCompleted": isCompleted,
+            "hexColor": hexColor
         ]
         
         if priority != .regular {
