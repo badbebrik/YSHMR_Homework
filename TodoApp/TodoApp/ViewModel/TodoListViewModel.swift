@@ -28,11 +28,11 @@ class TodoListViewModel: ObservableObject {
     }
 
     func updateItem(_ item: TodoItem) {
-        if let index = items.firstIndex(where: { $0.id == item.id }) {
+        if items.firstIndex(where: { $0.id == item.id }) != nil {
             fileCache.remove(by: item.id)
             fileCache.add(item)
+            print(item.hexColor)
         } else {
-            items.append(item)
             fileCache.add(item)
         }
         fileCache.save(to: "todoitems.json")
@@ -53,8 +53,5 @@ class TodoListViewModel: ObservableObject {
         fileCache.save(to: "todoitems.json")
         loadItems()
     }
-    
-    var completedTodoItemsCount: Int {
-            items.filter { $0.isCompleted }.count
-        }
+
 }

@@ -12,18 +12,28 @@ struct TodoRow: View {
     let onToggleComplete: () -> Void
     let onInfo: () -> Void
     let onDelete: () -> Void
-
+    
     var body: some View {
-            HStack {
-                if todo.isCompleted {
-                    Image(systemName: "checkmark.circle.fill")
+        HStack {
+            if todo.isCompleted {
+                Image(systemName: "checkmark.circle.fill")
+                    .resizable()
+                    .foregroundColor(.green)
+                    .frame(width: 24, height: 24)
+                    .onTapGesture {
+                        onToggleComplete()
+                    }
+                    .padding(.trailing, 8)
+            } else {
+                if todo.priority == .important {
+                    Image("high_priority_circle")
                         .resizable()
-                        .foregroundColor(.green)
                         .frame(width: 24, height: 24)
+                        .foregroundColor(todo.priority == .important ? .red : .gray)
                         .onTapGesture {
                             onToggleComplete()
                         }
-                        .padding(.trailing, 12)
+                        .padding(.trailing, 8)
                 } else {
                     Image(systemName: "circle")
                         .resizable()
@@ -32,43 +42,52 @@ struct TodoRow: View {
                         .onTapGesture {
                             onToggleComplete()
                         }
-                        .padding(.trailing, 12)
-                }
-                    
-                
-                if todo.priority == .important {
-                    Image("high_priority")
-                        .foregroundColor(.red)
+                        .padding(.trailing, 8)
                 }
                 
-                VStack(alignment: .leading) {
-                    Text(todo.text)
-                        .lineLimit(3)
-                        .font(.system(size: 16))
-                        .strikethrough(todo.isCompleted, color: .gray)
-                        .foregroundColor(todo.isCompleted ? .gray : .primary)
-                    
-                    if let deadline = todo.deadline {
-                        HStack {
-                            Image(systemName: "calendar")
-                                .foregroundColor(.secondary)
-                            Text(deadline, style: .date)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                }
-                
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .onTapGesture {
-                        onInfo()
-                    }
             }
-            .padding()
-            .cornerRadius(10)
-        
-        
+            
+            if todo.priority == .important {
+                Image("high_priority")
+                    .resizable()
+                    .frame(width: 16, height: 20)
+            } else if todo.priority == .unimportant {
+                Image("low_priority")
+                    .resizable()
+                    .frame(width: 16, height: 20)
+            }
+            
+            VStack(alignment: .leading) {
+                Text(todo.text)
+                    .lineLimit(3)
+                    .font(.system(size: 16))
+                    .strikethrough(todo.isCompleted, color: .gray)
+                    .foregroundColor(todo.isCompleted ? .gray : .primary)
+                
+                if let deadline = todo.deadline {
+                    HStack {
+                        Image(systemName: "calendar")
+                            .foregroundColor(.secondary)
+                        Text(deadline, style: .date)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+            
+            Spacer()
+            
+            Rectangle()
+                .fill(Color(hex: todo.hexColor))
+                .frame(width: 5)
+            Image(systemName: "chevron.right")
+                .onTapGesture {
+                    onInfo()
+                }
+                .foregroundColor(Color(hex: todo.hexColor))
+        }
+        .padding(.vertical, 4)
+        .frame(height: 50)
         
         .swipeActions(edge: .leading) {
             Button {
@@ -79,22 +98,26 @@ struct TodoRow: View {
             .tint(.green)
         }
         .swipeActions(edge: .trailing) {
-            Button {
-                onInfo()
-            } label: {
-                Label("Info", systemImage: "info.circle")
-            }
-            .tint(.gray)
-
+            
             Button(role: .destructive) {
                 onDelete()
             } label: {
-                Label("Delete", systemImage: "trash")
+                Label("", systemImage: "trash")
             }
             .tint(.red)
+            
+            Button {
+                onInfo()
+            } label: {
+                Label("", systemImage: "info.circle")
+            }
+            .tint(.gray)
+            
+            
         }
     }
 }
+
 
 struct TodoRow_Previews: PreviewProvider {
     static var previews: some View {

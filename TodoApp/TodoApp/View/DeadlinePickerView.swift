@@ -59,6 +59,7 @@ struct DeadlinePickerView: View {
             }
         }
         .animation(.default, value: showDatePicker)
+        .environment(\.locale, .current)
     }
 }
 

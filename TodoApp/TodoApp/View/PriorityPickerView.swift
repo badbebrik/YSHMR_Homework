@@ -16,9 +16,12 @@ struct PriorityPickerView: View {
                     .foregroundColor(.primary)
                 Spacer()
                 Picker("", selection: $priority) {
-                    Image("low_priority").tag(Priority.unimportant)
+                    Image("low_priority")
+                        .tag(Priority.unimportant)
+                        
                     Text("нет").tag(Priority.regular)
-                    Image("high_priority").tag(Priority.important)
+                    Image("high_priority")
+                        .tag(Priority.important)
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 150)

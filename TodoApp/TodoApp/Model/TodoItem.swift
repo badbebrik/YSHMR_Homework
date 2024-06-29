@@ -7,10 +7,21 @@
 
 import Foundation
 
-enum Priority: String {
+enum Priority: String, Comparable {
     case unimportant = "unimportant"
     case regular = "regular"
     case important = "important"
+    
+    static func < (lhs: Priority, rhs: Priority) -> Bool {
+        switch (lhs, rhs) {
+        case (.important, .regular), (.important, .unimportant), (.regular, .unimportant):
+            return false
+        case (.regular, .important), (.unimportant, .important), (.unimportant, .regular):
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 struct TodoItem: Identifiable {

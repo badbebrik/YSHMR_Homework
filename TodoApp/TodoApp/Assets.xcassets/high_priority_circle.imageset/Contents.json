@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "Property 1=Icon, Property 2=Priority, Property 3=Priority, Property 4=High.png",
+      "filename" : "Prop=High Priority.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Property 1=Icon, Property 2=Priority, Property 3=Priority, Property 4=High 1.png",
+      "filename" : "Prop=High Priority 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
