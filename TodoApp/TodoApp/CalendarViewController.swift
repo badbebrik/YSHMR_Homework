@@ -12,10 +12,16 @@ import SwiftUI
 final class CalendarViewController: UIViewController {
     // MARK: - Fields
     private var viewModel: CalendarViewModel
+    private var hostingController: UIHostingController<TodoDetailViewWrapper>?
+    
     private var showingDetailView = false {
         didSet {
             if showingDetailView {
                 presentDetailView()
+            } else {
+                dismissDetailView()
+                viewModel.loadItems()
+                dataDidUpdate()
             }
         }
     }
@@ -117,10 +123,19 @@ final class CalendarViewController: UIViewController {
         }, set: {
             self.showingDetailView = $0
         }), viewModel: todoDetailViewModel)
-        let hostingController = UIHostingController(rootView: detailView)
-        present(hostingController, animated: true, completion: nil)
+        hostingController = UIHostingController(rootView: detailView)
+        if let hostingController = hostingController {
+            present(hostingController, animated: true, completion: nil)
+        }
+    }
+    
+    private func dismissDetailView() {
+        hostingController?.dismiss(animated: true, completion: nil)
+        hostingController = nil
     }
 }
+
+
 // MARK: - UITableViewDelegate
 extension CalendarViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
