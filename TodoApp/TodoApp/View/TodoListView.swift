@@ -14,7 +14,7 @@ struct TodoListView: View {
     @State private var selectedTodo: TodoItem?
     @State private var showCompleted = false
     @State private var sortOption: SortOption = .byCreationDate
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -49,7 +49,7 @@ struct TodoListView: View {
                     }
                 }
                 .padding(.horizontal)
-
+                
                 List {
                     ForEach(filteredAndSortedItems) { item in
                         TodoRow(
@@ -63,7 +63,7 @@ struct TodoListView: View {
                                     isCompleted: !item.isCompleted,
                                     creationDate: item.creationDate,
                                     modificationDate: Date(),
-                                    hexColor: item.hexColor
+                                    hexColor: item.hexColor, category: item.category
                                 )
                                 viewModel.updateItem(updatedItem)
                             },
@@ -83,7 +83,6 @@ struct TodoListView: View {
                     .listRowInsets(EdgeInsets())
                 }
                 .listStyle(DefaultListStyle())
-                .navigationTitle("Мои дела")
                 .toolbar {
                     ToolbarItem(placement: .bottomBar) {
                         Button(action: {
@@ -95,10 +94,30 @@ struct TodoListView: View {
                         }
                     }
                 }
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Text("Мои дела")
+                            .font(.title)
+                            .bold()
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        NavigationLink() {
+                            CalendarViewWrapper()
+                                .navigationTitle("Мои дела")
+                                .toolbarRole(.editor)
+                                .onDisappear() {
+                                    viewModel.loadItems()
+                                }
+                        } label: {
+                            Image(systemName: "calendar")
+                        }
+                    }
+                }
             }
         }
         .onAppear() {
             viewModel.loadItems()
+            print("Hello")
         }
         .sheet(isPresented: $showingCreationDetail) {
             TodoDetailView(viewModel: TodoDetailViewModel(todoItem: nil, listViewModel: viewModel), isShowed: $showingCreationDetail)
@@ -109,7 +128,7 @@ struct TodoListView: View {
             }
         }
     }
-
+    
     private var filteredAndSortedItems: [TodoItem] {
         let filteredItems = viewModel.items.filter { !showCompleted ? !$0.isCompleted : true }
         switch sortOption {
@@ -119,7 +138,7 @@ struct TodoListView: View {
             return filteredItems.sorted { $0.priority > $1.priority }
         }
     }
-
+    
     enum SortOption {
         case byCreationDate, byPriority
     }
@@ -127,7 +146,7 @@ struct TodoListView: View {
 
 struct NewTodoRow: View {
     let onCreate: () -> Void
-
+    
     var body: some View {
         HStack {
             Text("Новое")

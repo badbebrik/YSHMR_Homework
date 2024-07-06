@@ -25,7 +25,8 @@ extension TodoItem {
             escape(text),
             isCompleted.description,
             formatter.string(from: creationDate),
-            hexColor
+            hexColor,
+            category.rawValue
         ]
         
         if priority != .regular {
@@ -72,7 +73,7 @@ extension TodoItem {
             return String(csv[range])
         }.map(unescape)
         
-        guard components.count >= 7 else { return nil }
+        guard components.count >= 8 else { return nil }
         
         let id = components[0]
         let text = components[1]
@@ -90,10 +91,12 @@ extension TodoItem {
         }
         
         let hexColor = components[6]
+        let categoryString = components[7]
+        let category = Category(rawValue: categoryString) ?? .other
         
-        let modificationDateString = components.count > 7 ? components[7] : ""
+        let modificationDateString = components.count > 8 ? components[8] : ""
         let modificationDate = modificationDateString.isEmpty ? nil : formatter.date(from: modificationDateString)
         
-        return TodoItem(id: id, text: text, priority: priority, deadline: deadline, isCompleted: isCompleted, creationDate: creationDate, modificationDate: modificationDate, hexColor: hexColor)
+        return TodoItem(id: id, text: text, priority: priority, deadline: deadline, isCompleted: isCompleted, creationDate: creationDate, modificationDate: modificationDate, hexColor: hexColor, category: category)
     }
 }
