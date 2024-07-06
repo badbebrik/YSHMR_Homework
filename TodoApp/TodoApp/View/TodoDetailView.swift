@@ -35,6 +35,8 @@ struct TodoDetailView: View {
                         CustomColorPickerView(selectedColor: $viewModel.selectedColor, showColorPicker: $viewModel.isColorPickerShowed)
                         Divider()
                         DeadlinePickerView(isDeadlineEnabled: $viewModel.isDeadlineEnabled, deadline: $viewModel.deadline)
+                        Divider()
+                        CategoryPickerView(category: $viewModel.category)
                     }
                     .cornerRadius(16)
                     .padding(.horizontal)
@@ -75,6 +77,8 @@ struct TodoDetailView: View {
 
 
 
-#Preview {
-    TodoDetailView(viewModel: TodoDetailViewModel(todoItem: TodoItem(text: "Cделать что-нибудь", priority: .important), listViewModel: TodoListViewModel()), isShowed: .constant(true))
-}
+
+
+//#Preview {
+//    TodoDetailView(viewModel: TodoDetailViewModel(todoItem: TodoItem(text: "Cделать что-нибудь", priority: .important, category: .hobby), listViewModel: TodoListViewModel()), isShowed: .constant(true))
+//}

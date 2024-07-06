@@ -15,6 +15,7 @@ final class TodoDetailViewModel: ObservableObject {
     @Published var isDeadlineEnabled: Bool
     @Published var selectedColor: Color
     @Published var isColorPickerShowed: Bool
+    @Published var category: Category
     @Published var todoItem: TodoItem?
 
     var listViewModel: TodoListViewModel
@@ -29,6 +30,7 @@ final class TodoDetailViewModel: ObservableObject {
         self.isDeadlineEnabled = todoItem?.deadline != nil
         self.selectedColor = Color(hex: todoItem?.hexColor ?? "F0171")
         self.isColorPickerShowed = false
+        self.category = todoItem?.category ?? .other
     }
 
     func save() {
@@ -40,7 +42,8 @@ final class TodoDetailViewModel: ObservableObject {
             isCompleted: todoItem?.isCompleted ?? false,
             creationDate: todoItem?.creationDate ?? Date(),
             modificationDate: Date(),
-            hexColor: selectedColor.hexString()
+            hexColor: selectedColor.hexString(),
+            category: category
         )
         print(updatedItem.hexColor)
         listViewModel.updateItem(updatedItem)
@@ -51,5 +54,6 @@ final class TodoDetailViewModel: ObservableObject {
         listViewModel.removeItem(by: id)
     }
 }
+
 
 

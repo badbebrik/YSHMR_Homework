@@ -5,7 +5,40 @@
 //  Created by Виктория Серикова on 16.06.2024.
 //
 
-import Foundation
+import SwiftUI
+
+enum Category: String, CaseIterable {
+    case work = "Work"
+    case study = "Study"
+    case hobby = "Hobby"
+    case other = "Other"
+
+    var color: Color {
+        switch self {
+        case .work:
+            return .red
+        case .study:
+            return .blue
+        case .hobby:
+            return .green
+        case .other:
+            return .clear
+        }
+    }
+    
+    var uiColor: UIColor {
+        switch self {
+        case .work:
+            return .red
+        case .study:
+            return .blue
+        case .hobby:
+            return .green
+        case .other:
+            return .clear
+        }
+    }
+}
 
 enum Priority: String, Comparable {
     case unimportant = "unimportant"
@@ -33,8 +66,9 @@ struct TodoItem: Identifiable {
     let creationDate: Date
     let modificationDate: Date?
     let hexColor: String
+    let category: Category
     
-    init(id: String = UUID().uuidString, text: String, priority: Priority, deadline: Date? = nil, isCompleted: Bool = false, creationDate: Date = Date(), modificationDate: Date? = nil, hexColor: String = "FFFFF") {
+    init(id: String = UUID().uuidString, text: String, priority: Priority, deadline: Date? = nil, isCompleted: Bool = false, creationDate: Date = Date(), modificationDate: Date? = nil, hexColor: String = "FFFFF", category: Category = .other) {
         self.id = id
         self.text = text
         self.priority = priority
@@ -43,6 +77,7 @@ struct TodoItem: Identifiable {
         self.creationDate = creationDate
         self.modificationDate = modificationDate
         self.hexColor = hexColor
+        self.category = category
     }
 }
 

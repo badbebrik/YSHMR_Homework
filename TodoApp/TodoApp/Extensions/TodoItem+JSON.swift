@@ -30,7 +30,6 @@ extension TodoItem {
         }
         
         let deadline: Date?
-        
         if let deadlineString = dictionary["deadline"] as? String {
             deadline = formatter.date(from: deadlineString)
         } else {
@@ -40,7 +39,6 @@ extension TodoItem {
         let isCompleted = dictionary["isCompleted"] as? Bool ?? false
         
         let modificationDate: Date?
-        
         if let modificationDateString = dictionary["modificationDate"] as? String {
             modificationDate = formatter.date(from: modificationDateString)
         } else {
@@ -49,7 +47,12 @@ extension TodoItem {
         
         let hexColor = dictionary["hexColor"] as? String ?? "FFFFF"
         
-        return TodoItem(id: id, text: text, priority: priority, deadline: deadline, isCompleted: isCompleted, creationDate: creationDate, modificationDate: modificationDate, hexColor: hexColor)
+        let categoryString = dictionary["category"] as? String ?? Category.other.rawValue
+        guard let category = Category(rawValue: categoryString) else {
+            return nil
+        }
+        
+        return TodoItem(id: id, text: text, priority: priority, deadline: deadline, isCompleted: isCompleted, creationDate: creationDate, modificationDate: modificationDate, hexColor: hexColor, category: category)
     }
     
     var json: Any {
@@ -62,7 +65,8 @@ extension TodoItem {
             "text": text,
             "creationDate": formatter.string(from: creationDate),
             "isCompleted": isCompleted,
-            "hexColor": hexColor
+            "hexColor": hexColor,
+            "category": category.rawValue
         ]
         
         if priority != .regular {
