@@ -143,16 +143,16 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		1D490CF12C382EAB00E42E2E /* Calendar */ = {
+		1D490D032C38FA6A00E42E2E /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
-				1D490CF22C382EE300E42E2E /* CalendarViewWrapper.swift */,
-				1D490CF42C382F0D00E42E2E /* CalendarViewController.swift */,
-				1D490CF62C38312400E42E2E /* TodoCell.swift */,
-				1D490CF82C38318B00E42E2E /* CalendarCell.swift */,
 				1D490D002C38DA7B00E42E2E /* TodoDetailViewWrapper.swift */,
+				1D490CF82C38318B00E42E2E /* CalendarCell.swift */,
+				1D490CF62C38312400E42E2E /* TodoCell.swift */,
+				1D490CF42C382F0D00E42E2E /* CalendarViewController.swift */,
+				1D490CF22C382EE300E42E2E /* CalendarViewWrapper.swift */,
 			);
-			name = Calendar;
+			path = Calendar;
 			sourceTree = "<group>";
 		};
 		1DD5FAB12C2548E400DFD128 = {
@@ -178,7 +178,7 @@
 		1DD5FABC2C2548E400DFD128 /* TodoApp */ = {
 			isa = PBXGroup;
 			children = (
-				1D490CF12C382EAB00E42E2E /* Calendar */,
+				1D490D032C38FA6A00E42E2E /* Calendar */,
 				1DD5FAFA2C26781200DFD128 /* Extensions */,
 				1DD5FAE82C25494600DFD128 /* Service */,
 				1DD5FAE72C25494100DFD128 /* Model */,
