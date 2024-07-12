@@ -41,9 +41,9 @@ enum Category: String, CaseIterable {
 }
 
 enum Priority: String, Comparable {
-    case unimportant = "unimportant"
-    case regular = "regular"
-    case important = "important"
+    case unimportant
+    case regular
+    case important
     
     static func < (lhs: Priority, rhs: Priority) -> Bool {
         switch (lhs, rhs) {
@@ -80,4 +80,3 @@ struct TodoItem: Identifiable {
         self.category = category
     }
 }
-

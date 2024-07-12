@@ -26,7 +26,7 @@ final class CalendarViewController: UIViewController {
         }
     }
     
-    private let plusButton: UIButton = UIButton()
+    private let plusButton = UIButton()
     
     private lazy var calendar: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -111,18 +111,23 @@ final class CalendarViewController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc
-    private func plusButtonTapped() {
+    @objc private func plusButtonTapped() {
         showingDetailView = true
     }
     
     private func presentDetailView() {
         let todoDetailViewModel = TodoDetailViewModel(todoItem: nil, listViewModel: TodoListViewModel())
-        let detailView = TodoDetailViewWrapper(isShowed: Binding(get: {
-            self.showingDetailView
-        }, set: {
-            self.showingDetailView = $0
-        }), viewModel: todoDetailViewModel)
+        let detailView = TodoDetailViewWrapper(
+            isShowed: Binding(
+                get: {
+                    self.showingDetailView
+                },
+                set: {
+                    self.showingDetailView = $0
+                }
+            ),
+            viewModel: todoDetailViewModel
+        )
         hostingController = UIHostingController(rootView: detailView)
         if let hostingController = hostingController {
             present(hostingController, animated: true, completion: nil)
@@ -141,10 +146,11 @@ extension CalendarViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let item = viewModel.todoItems[indexPath.section].1[indexPath.row] as TodoItem
         if !item.isCompleted {
-            let doneAction = UIContextualAction(style: .normal, title: "", handler: { (action, sourceView, completionHandler) in
+            let doneAction = UIContextualAction(style: .normal, title: "") { _, _, completionHandler in
                 self.viewModel.changeDone(item, value: true)
                 completionHandler(true)
-            })
+            }
+
             doneAction.backgroundColor = .green
             doneAction.image = UIImage(systemName: "checkmark.circle.fill")
             let swipeConfiguration = UISwipeActionsConfiguration(actions: [doneAction])
@@ -157,10 +163,10 @@ extension CalendarViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let item = viewModel.todoItems[indexPath.section].1[indexPath.row] as TodoItem
         
-        let notDoneAction = UIContextualAction(style: .normal, title: "", handler: { (action, sourceView, completionHandler) in
+        let notDoneAction = UIContextualAction(style: .normal, title: "") { _, _, completionHandler in
             self.viewModel.changeDone(item, value: false)
             completionHandler(true)
-        })
+        }
         notDoneAction.backgroundColor = .yellow
         notDoneAction.image = UIImage(systemName: "xmark.circle.fill")
         let swipeConfiguration = UISwipeActionsConfiguration(actions: [notDoneAction])
@@ -198,19 +204,19 @@ extension CalendarViewController: UICollectionViewDelegate {
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            if scrollView == calendar { return }
-            if (scrollView.isTracking || scrollView.isDragging || scrollView.isDecelerating) {
-                if let firstVisibleRowIndex = table.indexPathsForVisibleRows?.first {
-                    let indexPath = IndexPath(item: firstVisibleRowIndex.section, section: 0)
-                    calendar.scrollToItem(at: indexPath, at: .left, animated: true)
-                    self.calendar.selectItem(
-                        at: indexPath,
-                        animated: true,
-                        scrollPosition: UICollectionView.ScrollPosition.left
-                    )
-                }
+        if scrollView == calendar { return }
+        if scrollView.isTracking || scrollView.isDragging || scrollView.isDecelerating {
+            if let firstVisibleRowIndex = table.indexPathsForVisibleRows?.first {
+                let indexPath = IndexPath(item: firstVisibleRowIndex.section, section: 0)
+                calendar.scrollToItem(at: indexPath, at: .left, animated: true)
+                self.calendar.selectItem(
+                    at: indexPath,
+                    animated: true,
+                    scrollPosition: UICollectionView.ScrollPosition.left
+                )
             }
         }
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -228,7 +234,6 @@ extension CalendarViewController: UICollectionViewDataSource {
         calendarCell.layer.cornerRadius = 16
         return calendarCell
     }
-
 }
 
 extension CalendarViewController: CalendarViewModelDelegate {
@@ -239,4 +244,3 @@ extension CalendarViewController: CalendarViewModelDelegate {
         }
     }
 }
-

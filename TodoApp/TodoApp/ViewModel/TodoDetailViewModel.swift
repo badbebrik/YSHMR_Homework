@@ -25,7 +25,7 @@ final class TodoDetailViewModel: ObservableObject {
         self.listViewModel = listViewModel
         self.text = todoItem?.text ?? ""
         self.priority = todoItem?.priority ?? .regular
-        self.deadline = todoItem?.deadline ?? nil
+        self.deadline = todoItem?.deadline
         self.isPickerShowed = false
         self.isDeadlineEnabled = todoItem?.deadline != nil
         self.selectedColor = Color(hex: todoItem?.hexColor ?? "F0171")
@@ -54,6 +54,3 @@ final class TodoDetailViewModel: ObservableObject {
         listViewModel.removeItem(by: id)
     }
 }
-
-
-

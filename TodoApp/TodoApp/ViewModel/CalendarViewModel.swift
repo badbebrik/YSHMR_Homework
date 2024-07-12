@@ -34,7 +34,7 @@ final class CalendarViewModel {
         items = fileCache.items
         items.forEach { item in
             guard let deadline = item.deadline else {
-                if !todoItems.contains(where: { $0.0 == "Другое" } ) {
+                if !todoItems.contains(where: { $0.0 == "Другое" }) {
                     todoItems.append(("Другое", [item]))
                     dates.append("Другое")
                 } else {
@@ -48,7 +48,7 @@ final class CalendarViewModel {
             formatter.locale = Locale(identifier: "ru_RU")
             formatter.dateFormat = "dd MMMM yyyy"
             let date = formatter.string(from: deadline)
-            if !todoItems.contains(where: { $0.0 == date } ) {
+            if !todoItems.contains(where: { $0.0 == date }) {
                 todoItems.append((date, [item]))
                 dates.append(date)
             } else {
@@ -88,7 +88,7 @@ final class CalendarViewModel {
     func changeDone(_ todo: TodoItem, value: Bool) {
         let updatedTodo = TodoItem(
             id: todo.id,
-            text: todo.text, 
+            text: todo.text,
             priority: todo.priority,
             deadline: todo.deadline,
             isCompleted: value,

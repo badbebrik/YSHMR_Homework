@@ -53,5 +53,4 @@ class TodoListViewModel: ObservableObject {
         fileCache.save(to: "todoitems.json")
         loadItems()
     }
-
 }

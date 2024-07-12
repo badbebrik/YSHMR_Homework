@@ -9,17 +9,17 @@ import SwiftUI
 
 extension UIColor {
     static func blend(color1: UIColor, color2: UIColor, location: CGFloat) -> UIColor {
-        var (r1, g1, b1, a1) = (CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(0))
-        var (r2, g2, b2, a2) = (CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(0))
+        var (red1, green1, blue1, alpha1) = (CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(0))
+        var (red2, green2, blue2, alpha2) = (CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(0))
         
-        color1.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
-        color2.getRed(&r2, green: &g2, blue: &b2, alpha: &a2)
+        color1.getRed(&red1, green: &green1, blue: &blue1, alpha: &alpha1)
+        color2.getRed(&red2, green: &green2, blue: &blue2, alpha: &alpha2)
         
         return UIColor(
-            red: r1 + (r2 - r1) * location,
-            green: g1 + (g2 - g1) * location,
-            blue: b1 + (b2 - b1) * location,
-            alpha: a1 + (a2 - a1) * location
+            red: red1 + (red2 - red1) * location,
+            green: green1 + (green2 - green1) * location,
+            blue: blue1 + (blue2 - blue1) * location,
+            alpha: alpha1 + (alpha2 - alpha1) * location
         )
     }
 }

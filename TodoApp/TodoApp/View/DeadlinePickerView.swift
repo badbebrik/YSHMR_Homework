@@ -23,11 +23,11 @@ struct DeadlinePickerView: View {
                             withAnimation {
                                 showDatePicker.toggle()
                             }
-                        }) {
-                            Text(deadline ?? Date().addingTimeInterval(86400), style: .date) 
+                        }, label: {
+                            Text(deadline ?? Date().addingTimeInterval(86400), style: .date)
                                 .foregroundColor(.blue)
                                 .font(.system(size: 13))
-                        }
+                        })
                     }
                 }
                 
@@ -45,14 +45,16 @@ struct DeadlinePickerView: View {
                             }
                         }
                     }
-                
             }
             .padding()
             
             if showDatePicker && isDeadlineEnabled {
                 Divider()
                     .transition(.opacity)
-                DatePicker("Выберите дату", selection: Binding($deadline, replacingNilWith: Date()), displayedComponents: .date)
+                DatePicker(
+                    "Выберите дату",
+                    selection: Binding($deadline, replacingNilWith: Date()),
+                    displayedComponents: .date)
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .padding()
                     .transition(.move(edge: .top).combined(with: .opacity))

@@ -32,9 +32,15 @@ struct TodoDetailView: View {
                     VStack(spacing: 0) {
                         PriorityPickerView(priority: $viewModel.priority)
                         Divider()
-                        CustomColorPickerView(selectedColor: $viewModel.selectedColor, showColorPicker: $viewModel.isColorPickerShowed)
+                        CustomColorPickerView(
+                            selectedColor: $viewModel.selectedColor,
+                            showColorPicker: $viewModel.isColorPickerShowed
+                        )
                         Divider()
-                        DeadlinePickerView(isDeadlineEnabled: $viewModel.isDeadlineEnabled, deadline: $viewModel.deadline)
+                        DeadlinePickerView(
+                            isDeadlineEnabled: $viewModel.isDeadlineEnabled,
+                            deadline: $viewModel.deadline
+                        )
                         Divider()
                         CategoryPickerView(category: $viewModel.category)
                     }
@@ -44,10 +50,10 @@ struct TodoDetailView: View {
                     Button(role: .destructive, action: {
                         viewModel.delete()
                         isShowed = false
-                    }) {
+                    }, label: {
                         Text("Удалить")
                             .frame(maxWidth: .infinity)
-                    }
+                    })
                     .frame(height: 56)
                     .cornerRadius(16)
                     .padding(.horizontal)
@@ -57,7 +63,7 @@ struct TodoDetailView: View {
             .background(Color.brandBackground)
             .navigationTitle("Дело")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar(content: {
+            .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Отменить") {
                         isShowed = false
@@ -70,15 +76,7 @@ struct TodoDetailView: View {
                         isShowed = false
                     }
                 }
-            })
+            }
         }
     }
 }
-
-
-
-
-
-//#Preview {
-//    TodoDetailView(viewModel: TodoDetailViewModel(todoItem: TodoItem(text: "Cделать что-нибудь", priority: .important, category: .hobby), listViewModel: TodoListViewModel()), isShowed: .constant(true))
-//}

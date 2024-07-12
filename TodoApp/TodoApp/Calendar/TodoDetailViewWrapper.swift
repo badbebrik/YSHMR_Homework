@@ -21,4 +21,3 @@ struct TodoDetailViewWrapper: UIViewControllerRepresentable {
         uiViewController.rootView = TodoDetailView(viewModel: viewModel, isShowed: $isShowed)
     }
 }
-
