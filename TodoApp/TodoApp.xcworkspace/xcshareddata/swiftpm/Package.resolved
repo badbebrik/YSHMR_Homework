@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "deadlinepickerview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/badbebrik/DeadlinePickerView.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "bf7c61c55758113ab318ccc5a01f6c2f1df75aae"
+      }
+    },
+    {
       "identity" : "swift-log",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log",

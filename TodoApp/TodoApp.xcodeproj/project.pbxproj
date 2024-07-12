@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		013DE64196299251FB2BC684 /* Pods_TodoApp_TodoAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A36FD9DFE78A3385F1B8D4 /* Pods_TodoApp_TodoAppUITests.framework */; };
 		1D192A042C2E3F8F008E51BB /* PriorityPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D192A032C2E3F8F008E51BB /* PriorityPickerView.swift */; };
-		1D192A062C2E438F008E51BB /* DeadlinePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D192A052C2E438F008E51BB /* DeadlinePickerView.swift */; };
 		1D192A092C2E7A6B008E51BB /* TodoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D192A082C2E7A6B008E51BB /* TodoRow.swift */; };
 		1D192A0B2C2E8123008E51BB /* TodoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D192A0A2C2E8123008E51BB /* TodoListViewModel.swift */; };
 		1D192A102C2EC18D008E51BB /* CustomColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D192A0F2C2EC18D008E51BB /* CustomColorPickerView.swift */; };
@@ -25,6 +24,7 @@
 		1D82A5722C41636D00109841 /* CocoaLumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = 1D82A5712C41636D00109841 /* CocoaLumberjack */; };
 		1D82A5742C41636D00109841 /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1D82A5732C41636D00109841 /* CocoaLumberjackSwift */; };
 		1D82A5762C41636D00109841 /* CocoaLumberjackSwiftLogBackend in Frameworks */ = {isa = PBXBuildFile; productRef = 1D82A5752C41636D00109841 /* CocoaLumberjackSwiftLogBackend */; };
+		1D82A5802C41C98200109841 /* DeadlinePickerView in Frameworks */ = {isa = PBXBuildFile; productRef = 1D82A57F2C41C98200109841 /* DeadlinePickerView */; };
 		1D85E8802C2DA71600505295 /* TodoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85E87F2C2DA71600505295 /* TodoDetailView.swift */; };
 		1D85E8822C2DA72D00505295 /* TodoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85E8812C2DA72D00505295 /* TodoDetailViewModel.swift */; };
 		1D85E8842C2DA74400505295 /* TodoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85E8832C2DA74400505295 /* TodoListView.swift */; };
@@ -65,7 +65,6 @@
 
 /* Begin PBXFileReference section */
 		1D192A032C2E3F8F008E51BB /* PriorityPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityPickerView.swift; sourceTree = "<group>"; };
-		1D192A052C2E438F008E51BB /* DeadlinePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlinePickerView.swift; sourceTree = "<group>"; };
 		1D192A082C2E7A6B008E51BB /* TodoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRow.swift; sourceTree = "<group>"; };
 		1D192A0A2C2E8123008E51BB /* TodoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewModel.swift; sourceTree = "<group>"; };
 		1D192A0F2C2EC18D008E51BB /* CustomColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColorPickerView.swift; sourceTree = "<group>"; };
@@ -114,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D82A5802C41C98200109841 /* DeadlinePickerView in Frameworks */,
 				1D82A5742C41636D00109841 /* CocoaLumberjackSwift in Frameworks */,
 				1D82A5762C41636D00109841 /* CocoaLumberjackSwiftLogBackend in Frameworks */,
 				1D82A5722C41636D00109841 /* CocoaLumberjack in Frameworks */,
@@ -147,7 +147,6 @@
 				1D85E87F2C2DA71600505295 /* TodoDetailView.swift */,
 				1D85E8832C2DA74400505295 /* TodoListView.swift */,
 				1D192A032C2E3F8F008E51BB /* PriorityPickerView.swift */,
-				1D192A052C2E438F008E51BB /* DeadlinePickerView.swift */,
 				1D192A0F2C2EC18D008E51BB /* CustomColorPickerView.swift */,
 				1D490CFE2C38A55100E42E2E /* CategoryPickerView.swift */,
 			);
@@ -315,6 +314,7 @@
 				1D82A5712C41636D00109841 /* CocoaLumberjack */,
 				1D82A5732C41636D00109841 /* CocoaLumberjackSwift */,
 				1D82A5752C41636D00109841 /* CocoaLumberjackSwiftLogBackend */,
+				1D82A57F2C41C98200109841 /* DeadlinePickerView */,
 			);
 			productName = TodoApp;
 			productReference = 1DD5FABA2C2548E400DFD128 /* TodoApp.app */;
@@ -392,6 +392,7 @@
 			mainGroup = 1DD5FAB12C2548E400DFD128;
 			packageReferences = (
 				1D82A5702C41636D00109841 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */,
+				1D82A57E2C41C98200109841 /* XCRemoteSwiftPackageReference "DeadlinePickerView" */,
 			);
 			productRefGroup = 1DD5FABB2C2548E400DFD128 /* Products */;
 			projectDirPath = "";
@@ -527,7 +528,6 @@
 				1D490CF52C382F0D00E42E2E /* CalendarViewController.swift in Sources */,
 				1DD5FB002C26785C00DFD128 /* TodoItem+JSON.swift in Sources */,
 				1D85E8802C2DA71600505295 /* TodoDetailView.swift in Sources */,
-				1D192A062C2E438F008E51BB /* DeadlinePickerView.swift in Sources */,
 				1D192A102C2EC18D008E51BB /* CustomColorPickerView.swift in Sources */,
 				1DD5FAFE2C26784600DFD128 /* TodoItem+CSV.swift in Sources */,
 				1D192A0B2C2E8123008E51BB /* TodoListViewModel.swift in Sources */,
@@ -896,6 +896,14 @@
 				minimumVersion = 3.8.5;
 			};
 		};
+		1D82A57E2C41C98200109841 /* XCRemoteSwiftPackageReference "DeadlinePickerView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/badbebrik/DeadlinePickerView.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -913,6 +921,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1D82A5702C41636D00109841 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */;
 			productName = CocoaLumberjackSwiftLogBackend;
+		};
+		1D82A57F2C41C98200109841 /* DeadlinePickerView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1D82A57E2C41C98200109841 /* XCRemoteSwiftPackageReference "DeadlinePickerView" */;
+			productName = DeadlinePickerView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
