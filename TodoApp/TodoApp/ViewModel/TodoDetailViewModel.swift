@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CocoaLumberjackSwift
 
 final class TodoDetailViewModel: ObservableObject {
     @Published var text: String
@@ -31,6 +32,7 @@ final class TodoDetailViewModel: ObservableObject {
         self.selectedColor = Color(hex: todoItem?.hexColor ?? "F0171")
         self.isColorPickerShowed = false
         self.category = todoItem?.category ?? .other
+        DDLogInfo("TodoDetailViewModel initialized with item: \(todoItem?.id ?? "new item")")
     }
 
     func save() {
@@ -45,12 +47,14 @@ final class TodoDetailViewModel: ObservableObject {
             hexColor: selectedColor.hexString(),
             category: category
         )
-        print(updatedItem.hexColor)
+        
         listViewModel.updateItem(updatedItem)
+        DDLogInfo("Item saved: \(todoItem?.id ?? "new item")")
     }
 
     func delete() {
         guard let id = todoItem?.id else { return }
         listViewModel.removeItem(by: id)
+        DDLogInfo("Item deleted: \(id)")
     }
 }

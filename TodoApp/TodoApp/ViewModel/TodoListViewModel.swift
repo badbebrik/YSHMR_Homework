@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CocoaLumberjackSwift
 
 class TodoListViewModel: ObservableObject {
     @Published var items: [TodoItem] = []
@@ -14,17 +15,20 @@ class TodoListViewModel: ObservableObject {
     init(fileCache: FileCache = FileCache()) {
         self.fileCache = fileCache
         loadItems()
+        DDLogInfo("TodoListViewModel initialized")
     }
 
     func loadItems() {
         fileCache.load(from: "todoitems.json")
         items = fileCache.items
+        DDLogInfo("Items loaded")
     }
 
     func addItem(_ item: TodoItem) {
         fileCache.add(item)
         fileCache.save(to: "todoitems.json")
         loadItems()
+        DDLogInfo("Item added: \(item.id)")
     }
 
     func updateItem(_ item: TodoItem) {
@@ -37,20 +41,13 @@ class TodoListViewModel: ObservableObject {
         }
         fileCache.save(to: "todoitems.json")
         loadItems()
+        DDLogInfo("Item updated: \(item.id)")
     }
 
     func removeItem(by id: String) {
         fileCache.remove(by: id)
         fileCache.save(to: "todoitems.json")
         loadItems()
-    }
-
-    func removeItem(at offsets: IndexSet) {
-        offsets.forEach { index in
-            let item = items[index]
-            fileCache.remove(by: item.id)
-        }
-        fileCache.save(to: "todoitems.json")
-        loadItems()
+        DDLogInfo("Item removed: \(id)")
     }
 }

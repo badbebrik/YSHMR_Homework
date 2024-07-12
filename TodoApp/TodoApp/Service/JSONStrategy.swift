@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import CocoaLumberjackSwift
 
 class JSONStrategy: StorageStrategy {
     func save(items: [TodoItem], to filename: String) {
         guard let fileURL = getDocumentsDirectory()?.appendingPathComponent(filename) else {
-            print("Failed to get documents directory")
+            DDLogError("Failed to get documents directory")
             return
         }
         let jsonArray: [Any] = items.map { $0.json }
@@ -18,15 +19,15 @@ class JSONStrategy: StorageStrategy {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: jsonArray, options: .prettyPrinted)
             try jsonData.write(to: fileURL)
-            print("JSON file saved to: \(fileURL.path)")
+            DDLogInfo("JSON file saved to: \(fileURL.path)")
         } catch {
-            print("Failed to save JSON file: \(error)")
+            DDLogInfo("JSON file saved to: \(fileURL.path)")
         }
     }
     
     func load(from filename: String) -> [TodoItem] {
         guard let fileURL = getDocumentsDirectory()?.appendingPathComponent(filename) else {
-            print("Failed to get documents directory")
+            DDLogError("Failed to get documents directory")
             return []
         }
         var items: [TodoItem] = []
@@ -40,9 +41,9 @@ class JSONStrategy: StorageStrategy {
                     }
                 }
             }
-            print("JSON file loaded from: \(fileURL.path)")
+            DDLogInfo("JSON file loaded from: \(fileURL.path)")
         } catch {
-            print("Failed to load JSON file: \(error)")
+            DDLogError("Failed to load JSON file: \(error)")
         }
         return items
     }

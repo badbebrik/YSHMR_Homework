@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import CocoaLumberjackSwift
 
 final class CalendarViewController: UIViewController {
     // MARK: - Fields
@@ -69,6 +70,7 @@ final class CalendarViewController: UIViewController {
         self.title = "Мои дела"
         self.navigationItem.hidesBackButton = false
         configureUI()
+        DDLogInfo("CalendarViewController loaded")
     }
     
     // MARK: - Configuration
@@ -113,6 +115,7 @@ final class CalendarViewController: UIViewController {
     // MARK: - Actions
     @objc private func plusButtonTapped() {
         showingDetailView = true
+        DDLogInfo("Plus button tapped, showing detail view")
     }
     
     private func presentDetailView() {
@@ -131,12 +134,14 @@ final class CalendarViewController: UIViewController {
         hostingController = UIHostingController(rootView: detailView)
         if let hostingController = hostingController {
             present(hostingController, animated: true, completion: nil)
+            DDLogInfo("Presenting detail view")
         }
     }
     
     private func dismissDetailView() {
         hostingController?.dismiss(animated: true, completion: nil)
         hostingController = nil
+        DDLogInfo("Dismissing detail view")
     }
 }
 
@@ -144,6 +149,7 @@ final class CalendarViewController: UIViewController {
 // MARK: - UITableViewDelegate
 extension CalendarViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        DDLogDebug("Leading swipe action for row at \(indexPath)")
         let item = viewModel.todoItems[indexPath.section].1[indexPath.row] as TodoItem
         if !item.isCompleted {
             let doneAction = UIContextualAction(style: .normal, title: "") { _, _, completionHandler in
@@ -161,6 +167,7 @@ extension CalendarViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        DDLogDebug("Trailing swipe action for row at \(indexPath)")
         let item = viewModel.todoItems[indexPath.section].1[indexPath.row] as TodoItem
         
         let notDoneAction = UIContextualAction(style: .normal, title: "") { _, _, completionHandler in
@@ -199,6 +206,7 @@ extension CalendarViewController: UITableViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension CalendarViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        DDLogDebug("Collection view item selected at \(indexPath)")
         table.scrollToRow(at: IndexPath(item: 0, section: indexPath.item), at: .top, animated: true)
     }
     
@@ -206,6 +214,7 @@ extension CalendarViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView == calendar { return }
         if scrollView.isTracking || scrollView.isDragging || scrollView.isDecelerating {
+            DDLogDebug("Scroll view did scroll")
             if let firstVisibleRowIndex = table.indexPathsForVisibleRows?.first {
                 let indexPath = IndexPath(item: firstVisibleRowIndex.section, section: 0)
                 calendar.scrollToItem(at: indexPath, at: .left, animated: true)
@@ -241,6 +250,7 @@ extension CalendarViewController: CalendarViewModelDelegate {
         DispatchQueue.main.async {
             self.table.reloadData()
             self.calendar.reloadData()
+            DDLogInfo("Data updated, reloading table and calendar")
         }
     }
 }
