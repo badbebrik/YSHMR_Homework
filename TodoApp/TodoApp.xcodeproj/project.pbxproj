@@ -25,6 +25,8 @@
 		1D82A5742C41636D00109841 /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1D82A5732C41636D00109841 /* CocoaLumberjackSwift */; };
 		1D82A5762C41636D00109841 /* CocoaLumberjackSwiftLogBackend in Frameworks */ = {isa = PBXBuildFile; productRef = 1D82A5752C41636D00109841 /* CocoaLumberjackSwiftLogBackend */; };
 		1D82A5802C41C98200109841 /* DeadlinePickerView in Frameworks */ = {isa = PBXBuildFile; productRef = 1D82A57F2C41C98200109841 /* DeadlinePickerView */; };
+		1D82A5952C41FAAB00109841 /* URLSession+dataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D82A5942C41FAAB00109841 /* URLSession+dataTask.swift */; };
+		1D82A5972C41FEBF00109841 /* URLSessionExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D82A5962C41FEBF00109841 /* URLSessionExtensionTests.swift */; };
 		1D85E8802C2DA71600505295 /* TodoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85E87F2C2DA71600505295 /* TodoDetailView.swift */; };
 		1D85E8822C2DA72D00505295 /* TodoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85E8812C2DA72D00505295 /* TodoDetailViewModel.swift */; };
 		1D85E8842C2DA74400505295 /* TodoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85E8832C2DA74400505295 /* TodoListView.swift */; };
@@ -77,6 +79,8 @@
 		1D490CFC2C38368B00E42E2E /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		1D490CFE2C38A55100E42E2E /* CategoryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerView.swift; sourceTree = "<group>"; };
 		1D490D002C38DA7B00E42E2E /* TodoDetailViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailViewWrapper.swift; sourceTree = "<group>"; };
+		1D82A5942C41FAAB00109841 /* URLSession+dataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+dataTask.swift"; sourceTree = "<group>"; };
+		1D82A5962C41FEBF00109841 /* URLSessionExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionExtensionTests.swift; sourceTree = "<group>"; };
 		1D85E87F2C2DA71600505295 /* TodoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailView.swift; sourceTree = "<group>"; };
 		1D85E8812C2DA72D00505295 /* TodoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailViewModel.swift; sourceTree = "<group>"; };
 		1D85E8832C2DA74400505295 /* TodoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListView.swift; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 			children = (
 				1DD5FACE2C2548E500DFD128 /* TodoAppTests.swift */,
 				1DD5FAF12C25498F00DFD128 /* TodoItemTests.swift */,
+				1D82A5962C41FEBF00109841 /* URLSessionExtensionTests.swift */,
 			);
 			path = TodoAppTests;
 			sourceTree = "<group>";
@@ -265,6 +270,7 @@
 				1DD5FAFF2C26785C00DFD128 /* TodoItem+JSON.swift */,
 				1D192A152C2FC26B008E51BB /* UIColor+Blend.swift */,
 				1D192A172C2FC291008E51BB /* Color+Hex.swift */,
+				1D82A5942C41FAAB00109841 /* URLSession+dataTask.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -533,6 +539,7 @@
 				1D192A0B2C2E8123008E51BB /* TodoListViewModel.swift in Sources */,
 				1DD5FAC02C2548E400DFD128 /* ContentView.swift in Sources */,
 				1D85E8842C2DA74400505295 /* TodoListView.swift in Sources */,
+				1D82A5952C41FAAB00109841 /* URLSession+dataTask.swift in Sources */,
 				1D490CFF2C38A55100E42E2E /* CategoryPickerView.swift in Sources */,
 				1DD5FAEA2C25495300DFD128 /* TodoItem.swift in Sources */,
 				1DD5FAF42C2549BF00DFD128 /* JSONStrategy.swift in Sources */,
@@ -556,6 +563,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DD5FAF22C25498F00DFD128 /* TodoItemTests.swift in Sources */,
+				1D82A5972C41FEBF00109841 /* URLSessionExtensionTests.swift in Sources */,
 				1DD5FACF2C2548E500DFD128 /* TodoAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -645,6 +653,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
 			};
 			name = Debug;
 		};
@@ -700,6 +709,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

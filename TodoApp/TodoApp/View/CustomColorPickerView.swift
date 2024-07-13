@@ -87,6 +87,7 @@ struct CustomColorPickerView: View {
         return colors
     }
 
+    @MainActor
     private func getColor(at position: CGFloat) -> Color {
         let colors = generateGradientColors()
         let width = UIScreen.main.bounds.width - 32
