@@ -44,7 +44,6 @@ struct TodoRow: View {
                         }
                         .padding(.trailing, 8)
                 }
-                
             }
             
             if todo.priority == .important {
@@ -98,7 +97,6 @@ struct TodoRow: View {
             .tint(.green)
         }
         .swipeActions(edge: .trailing) {
-            
             Button(role: .destructive) {
                 onDelete()
             } label: {
@@ -112,8 +110,6 @@ struct TodoRow: View {
                 Label("", systemImage: "info.circle")
             }
             .tint(.gray)
-            
-            
         }
     }
 }
@@ -122,29 +118,102 @@ struct TodoRow: View {
 struct TodoRow_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            TodoRow(todo: TodoItem(text: "Купить что-то", priority: .regular, isCompleted: false, category: .hobby), onToggleComplete: {}, onInfo: {}, onDelete: {})
-                .previewDisplayName("Ячейка в 1 строку")
+            TodoRow(
+                todo: TodoItem(
+                    text: "Купить что-то",
+                    priority: .regular,
+                    isCompleted: false,
+                    category: .hobby
+                ),
+                onToggleComplete: {},
+                onInfo: {},
+                onDelete: {}
+            )
+            .previewDisplayName("Ячейка в 1 строку")
             
-            TodoRow(todo: TodoItem(text: "Купить что-то, где-то, зачем-то, но зачем не очень понятно", priority: .regular, isCompleted: false, category: .other), onToggleComplete: {}, onInfo: {}, onDelete: {})
-                .previewDisplayName("Ячейка в 2 строки")
+            TodoRow(
+                todo: TodoItem(
+                    text: "Купить что-то, где-то, зачем-то, но зачем не очень понятно",
+                    priority: .regular,
+                    isCompleted: false,
+                    category: .other
+                ),
+                onToggleComplete: {},
+                onInfo: {},
+                onDelete: {}
+            )
+            .previewDisplayName("Ячейка в 2 строки")
             
-            TodoRow(todo: TodoItem(text: "Купить что-то, где-то, зачем-то, но зачем не очень понятно, но точно чтобы показать как обрезать текст в ячейке", priority: .regular, isCompleted: false, category: .other), onToggleComplete: {}, onInfo: {}, onDelete: {})
-                .previewDisplayName("Ячейка в 3 строки")
-            
-            TodoRow(todo: TodoItem(text: "Купить что-то", priority: .unimportant, isCompleted: false, category: .other), onToggleComplete: {}, onInfo: {}, onDelete: {})
-                .previewDisplayName("Ячейка в 1 строку, низкий приоритет")
-            
-            TodoRow(todo: TodoItem(text: "Купить что-то", priority: .important, isCompleted: false, category: .other), onToggleComplete: {}, onInfo: {}, onDelete: {})
-                .previewDisplayName("Ячейка в 1 строку, высокий приоритет")
-            
-            TodoRow(todo: TodoItem(text: "Купить что-то", priority: .regular, isCompleted: true, category: .other), onToggleComplete: {}, onInfo: {}, onDelete: {})
-                .previewDisplayName("Ячейка в 1 строку, выполнена")
-            
-            TodoRow(todo: TodoItem(text: "Задание", priority: .regular, deadline: Date(), isCompleted: false, category: .study), onToggleComplete: {}, onInfo: {}, onDelete: {})
-                .previewDisplayName("Ячейка в 1 строку с датой дедлайна")
+            TodoRow(
+                todo: TodoItem(
+                    text: """
+                    Купить что-то, где-то, зачем-то, но зачем не очень понятно,
+                    но точно чтобы показать как обрезать текст в ячейке
+                    """,
+                    priority: .regular,
+                    isCompleted: false,
+                    category: .other
+                ),
+                onToggleComplete: {},
+                onInfo: {},
+                onDelete: {}
+            )
+            .previewDisplayName("Ячейка в 3 строки")
+
+            TodoRow(
+                todo: TodoItem(
+                    text: "Купить что-то",
+                    priority: .unimportant,
+                    isCompleted: false,
+                    category: .other
+                ),
+                onToggleComplete: {},
+                onInfo: {},
+                onDelete: {}
+            )
+            .previewDisplayName("Ячейка в 1 строку, низкий приоритет")
+
+            TodoRow(
+                todo: TodoItem(
+                    text: "Купить что-то",
+                    priority: .important,
+                    isCompleted: false,
+                    category: .other
+                ),
+                onToggleComplete: {},
+                onInfo: {},
+                onDelete: {}
+            )
+            .previewDisplayName("Ячейка в 1 строку, высокий приоритет")
+
+            TodoRow(
+                todo: TodoItem(
+                    text: "Купить что-то",
+                    priority: .regular,
+                    isCompleted: true,
+                    category: .other
+                ),
+                onToggleComplete: {},
+                onInfo: {},
+                onDelete: {}
+            )
+            .previewDisplayName("Ячейка в 1 строку, выполнена")
+
+            TodoRow(
+                todo: TodoItem(
+                    text: "Задание",
+                    priority: .regular,
+                    deadline: Date(),
+                    isCompleted: false,
+                    category: .study
+                ),
+                onToggleComplete: {},
+                onInfo: {},
+                onDelete: {}
+            )
+            .previewDisplayName("Ячейка в 1 строку с датой дедлайна")
         }
         .previewLayout(.sizeThatFits)
         .padding()
     }
 }
-

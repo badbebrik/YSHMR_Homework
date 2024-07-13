@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import CocoaLumberjackSwift
 
 class CSVStrategy: StorageStrategy {
     func save(items: [TodoItem], to filename: String) {
         guard let fileURL = getDocumentsDirectory()?.appendingPathComponent(filename) else {
-            print("Failed to get documents directory")
+            DDLogError("Failed to get documents directory")
             return
         }
         var csvArray: [String] = ["id,text,priority,deadline,isCompleted,creationDate,modificationDate"]
@@ -19,15 +20,15 @@ class CSVStrategy: StorageStrategy {
         
         do {
             try csvString.write(to: fileURL, atomically: true, encoding: .utf8)
-            print("CSV file saved to: \(fileURL.path)")
+            DDLogInfo("CSV file saved to: \(fileURL.path)")
         } catch {
-            print("Failed to save CSV file: \(error)")
+            DDLogError("Failed to save CSV file: \(error)")
         }
     }
     
     func load(from filename: String) -> [TodoItem] {
         guard let fileURL = getDocumentsDirectory()?.appendingPathComponent(filename) else {
-            print("Failed to get documents directory")
+            DDLogError("Failed to get documents directory")
             return []
         }
         var items: [TodoItem] = []
@@ -43,9 +44,9 @@ class CSVStrategy: StorageStrategy {
                     items.append(item)
                 }
             }
-            print("CSV file loaded from: \(fileURL.path)")
+            DDLogInfo("CSV file loaded from: \(fileURL.path)")
         } catch {
-            print("Failed to load CSV file: \(error)")
+            DDLogError("Failed to load CSV file: \(error)")
         }
         return items
     }

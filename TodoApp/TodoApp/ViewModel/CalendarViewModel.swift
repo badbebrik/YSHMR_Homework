@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CocoaLumberjackSwift
 
 protocol CalendarViewModelDelegate: AnyObject {
     func dataDidUpdate()
@@ -23,10 +24,12 @@ final class CalendarViewModel {
     init(fileCache: FileCache = FileCache(strategy: JSONStrategy())) {
         self.fileCache = fileCache
         loadItems()
+        DDLogInfo("CalendarViewModel initialized")
     }
 
     // MARK: - Methods
     func loadItems() {
+        DDLogInfo("Loading items")
         todoItems.removeAll()
         dates.removeAll()
 
@@ -34,7 +37,7 @@ final class CalendarViewModel {
         items = fileCache.items
         items.forEach { item in
             guard let deadline = item.deadline else {
-                if !todoItems.contains(where: { $0.0 == "Другое" } ) {
+                if !todoItems.contains(where: { $0.0 == "Другое" }) {
                     todoItems.append(("Другое", [item]))
                     dates.append("Другое")
                 } else {
@@ -48,7 +51,7 @@ final class CalendarViewModel {
             formatter.locale = Locale(identifier: "ru_RU")
             formatter.dateFormat = "dd MMMM yyyy"
             let date = formatter.string(from: deadline)
-            if !todoItems.contains(where: { $0.0 == date } ) {
+            if !todoItems.contains(where: { $0.0 == date }) {
                 todoItems.append((date, [item]))
                 dates.append(date)
             } else {
@@ -66,6 +69,7 @@ final class CalendarViewModel {
         fileCache.add(item)
         fileCache.save(to: "todoitems.json")
         loadItems()
+        DDLogInfo("Item added: \(item.id)")
     }
 
     func updateItem(_ item: TodoItem) {
@@ -77,18 +81,20 @@ final class CalendarViewModel {
         }
         fileCache.save(to: "todoitems.json")
         loadItems()
+        DDLogInfo("Item updated: \(item.id)")
     }
 
     func removeItem(by id: String) {
         fileCache.remove(by: id)
         fileCache.save(to: "todoitems.json")
         loadItems()
+        DDLogInfo("Item removed: \(id)")
     }
     
     func changeDone(_ todo: TodoItem, value: Bool) {
         let updatedTodo = TodoItem(
             id: todo.id,
-            text: todo.text, 
+            text: todo.text,
             priority: todo.priority,
             deadline: todo.deadline,
             isCompleted: value,
@@ -98,5 +104,6 @@ final class CalendarViewModel {
             category: todo.category
         )
         updateItem(updatedTodo)
+        DDLogInfo("Item marked as \(value ? "completed" : "not completed"): \(todo.id)")
     }
 }

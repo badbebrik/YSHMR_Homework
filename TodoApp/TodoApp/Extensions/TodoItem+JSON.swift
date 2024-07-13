@@ -8,18 +8,16 @@
 import Foundation
 
 extension TodoItem {
-    
     static func parse(json: Any) -> TodoItem? {
-        
         let formatter = ISO8601DateFormatter()
         formatter.timeZone = .current
         
         guard let jsonData = try? JSONSerialization.data(withJSONObject: json, options: []),
-              let dictionary = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
-              let id = dictionary["id"] as? String,
-              let text = dictionary["text"] as? String,
-              let creationDateString = dictionary["creationDate"] as? String,
-              let creationDate = formatter.date(from: creationDateString) else {
+            let dictionary = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
+            let id = dictionary["id"] as? String,
+            let text = dictionary["text"] as? String,
+            let creationDateString = dictionary["creationDate"] as? String,
+            let creationDate = formatter.date(from: creationDateString) else {
             return nil
         }
         
@@ -52,11 +50,20 @@ extension TodoItem {
             return nil
         }
         
-        return TodoItem(id: id, text: text, priority: priority, deadline: deadline, isCompleted: isCompleted, creationDate: creationDate, modificationDate: modificationDate, hexColor: hexColor, category: category)
+        return TodoItem(
+            id: id,
+            text: text,
+            priority: priority,
+            deadline: deadline,
+            isCompleted: isCompleted,
+            creationDate: creationDate,
+            modificationDate: modificationDate,
+            hexColor: hexColor,
+            category: category
+        )
     }
     
     var json: Any {
-        
         let formatter = ISO8601DateFormatter()
         formatter.timeZone = .current
         
@@ -82,7 +89,7 @@ extension TodoItem {
         }
         
         guard let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: []),
-              let jsonResult = try? JSONSerialization.jsonObject(with: jsonData, options: []) else {
+            let jsonResult = try? JSONSerialization.jsonObject(with: jsonData, options: []) else {
             return [:]
         }
         

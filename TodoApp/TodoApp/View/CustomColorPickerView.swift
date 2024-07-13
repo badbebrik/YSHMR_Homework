@@ -15,7 +15,7 @@ struct CustomColorPickerView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                VStack (alignment: .leading) {
+                VStack(alignment: .leading) {
                     Text("Цвет")
                         .foregroundColor(.primary)
                     
@@ -23,7 +23,7 @@ struct CustomColorPickerView: View {
                         withAnimation {
                             showColorPicker.toggle()
                         }
-                    }) {
+                    }, label: {
                         HStack {
                             Text("\(selectedColor.hexString())")
                                 .foregroundColor(.blue)
@@ -32,7 +32,7 @@ struct CustomColorPickerView: View {
                                 .brightness(1 - brightness)
                                 .frame(width: 20, height: 20)
                         }
-                    }
+                    })
                 }
                 
                 Spacer()
@@ -73,16 +73,21 @@ struct CustomColorPickerView: View {
             UIColor.black
         ]
         
-        var colors = [Color]()
+        var colors: [Color] = []
         for i in 0..<baseColors.count - 1 {
             colors.append(Color(baseColors[i]))
             let middleColor = UIColor.blend(color1: baseColors[i], color2: baseColors[i + 1], location: 0.5)
             colors.append(Color(middleColor))
         }
-        colors.append(Color(baseColors.last!))
+        
+        if let lastBaseColor = baseColors.last {
+            colors.append(Color(lastBaseColor))
+        }
+
         return colors
     }
 
+    @MainActor
     private func getColor(at position: CGFloat) -> Color {
         let colors = generateGradientColors()
         let width = UIScreen.main.bounds.width - 32
@@ -90,4 +95,3 @@ struct CustomColorPickerView: View {
         return colors[index]
     }
 }
-

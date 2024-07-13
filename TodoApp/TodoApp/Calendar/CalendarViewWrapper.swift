@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-struct CalendarViewWrapper : UIViewControllerRepresentable {
-    
+struct CalendarViewWrapper: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) { }
 
     func makeUIViewController(context: Context) -> some UIViewController {

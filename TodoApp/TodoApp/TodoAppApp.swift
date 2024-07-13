@@ -6,12 +6,22 @@
 //
 
 import SwiftUI
+import CocoaLumberjackSwift
 
 @main
 struct TodoAppApp: App {
+    init() {
+        setupLogging()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
+    }
+    
+    private func setupLogging() {
+        DDLog.add(DDOSLogger.sharedInstance)
+        DDLogInfo("Logging initialized")
     }
 }

@@ -47,7 +47,7 @@ final class TodoCell: UITableViewCell {
     // MARK: - Configuration
     func configure(with model: TodoItem) {
         if model.isCompleted {
-            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: model.text)
+            let attributedString = NSMutableAttributedString(string: model.text)
             attributedString.addAttribute(
                 NSAttributedString.Key.strikethroughStyle,
                 value: 2,
@@ -69,6 +69,5 @@ final class TodoCell: UITableViewCell {
         category.heightAnchor.constraint(equalToConstant: 16).isActive = true
         category.backgroundColor = model.category.uiColor
         text.trailingAnchor.constraint(equalTo: category.leadingAnchor, constant: -10).isActive = true
-        
     }
 }

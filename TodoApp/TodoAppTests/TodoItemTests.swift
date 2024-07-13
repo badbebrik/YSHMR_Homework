@@ -8,8 +8,7 @@
 import XCTest
 @testable import TodoApp
 
-final class TodoItemTests: XCTestCase {
-    
+class TodoItemTestsInitialization: XCTestCase {
     private let dateFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.timeZone = .current
@@ -32,7 +31,17 @@ final class TodoItemTests: XCTestCase {
         let deadline = Date().addingTimeInterval(86400)
         let creationDate = Date().addingTimeInterval(-86400)
         let modificationDate = Date()
-        let item = TodoItem(id: "12345", text: "Test Task", priority: .regular, deadline: deadline, isCompleted: true, creationDate: creationDate, modificationDate: modificationDate, hexColor: "FF5733", category: .hobby)
+        let item = TodoItem(
+            id: "12345",
+            text: "Test Task",
+            priority: .regular,
+            deadline: deadline,
+            isCompleted: true,
+            creationDate: creationDate,
+            modificationDate: modificationDate,
+            hexColor: "FF5733",
+            category: .hobby
+        )
         
         XCTAssertEqual(item.id, "12345")
         XCTAssertEqual(item.text, "Test Task")
@@ -44,6 +53,14 @@ final class TodoItemTests: XCTestCase {
         XCTAssertEqual(item.hexColor, "FF5733")
         XCTAssertEqual(item.category, .hobby)
     }
+}
+
+class TodoItemTestsSerialization: XCTestCase {
+    private let dateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.timeZone = .current
+        return formatter
+    }()
     
     func testTodoItemToJSON() {
         let item = TodoItem(text: "Test Task", priority: .regular, hexColor: "FF5733")
@@ -65,7 +82,17 @@ final class TodoItemTests: XCTestCase {
         let deadline = Date().addingTimeInterval(86400)
         let creationDate = Date().addingTimeInterval(-86400)
         let modificationDate = Date()
-        let item = TodoItem(id: "12345", text: "Test Task", priority: .important, deadline: deadline, isCompleted: true, creationDate: creationDate, modificationDate: modificationDate, hexColor: "FF5733", category: .work)
+        let item = TodoItem(
+            id: "12345",
+            text: "Test Task",
+            priority: .important,
+            deadline: deadline,
+            isCompleted: true,
+            creationDate: creationDate,
+            modificationDate: modificationDate,
+            hexColor: "FF5733",
+            category: .work
+        )
         let json = item.json as? [String: Any]
         
         XCTAssertNotNil(json)
@@ -150,12 +177,22 @@ final class TodoItemTests: XCTestCase {
         XCTAssertEqual(components[7], "Other")
         XCTAssertEqual(components[8], "")
     }
-
+    
     func testTodoItemToCSVWithAllParameters() {
         let deadline = Date().addingTimeInterval(86400)
         let creationDate = Date().addingTimeInterval(-86400)
         let modificationDate = Date()
-        let item = TodoItem(id: "12345", text: "Test Task", priority: .important, deadline: deadline, isCompleted: true, creationDate: creationDate, modificationDate: modificationDate, hexColor: "FF5733", category: .work)
+        let item = TodoItem(
+            id: "12345",
+            text: "Test Task",
+            priority: .important,
+            deadline: deadline,
+            isCompleted: true,
+            creationDate: creationDate,
+            modificationDate: modificationDate,
+            hexColor: "FF5733",
+            category: .work
+        )
         let csvString = item.csv
         let components = csvString.components(separatedBy: ",")
         
@@ -170,7 +207,7 @@ final class TodoItemTests: XCTestCase {
         XCTAssertEqual(components[7], "Work")
         XCTAssertEqual(components[8], dateFormatter.string(from: modificationDate))
     }
-
+    
     func testTodoItemFromCSV() {
         let creationDateString = dateFormatter.string(from: Date())
         let csvString = "\(UUID().uuidString),Test Task,regular,,false,\(creationDateString),FFFFF,Other,"
@@ -188,12 +225,15 @@ final class TodoItemTests: XCTestCase {
             XCTFail("Failed to parse TodoItem from CSV")
         }
     }
-
+    
     func testTodoItemFromCSVWithAllParameters() {
         let creationDateString = dateFormatter.string(from: Date().addingTimeInterval(-86400))
         let deadlineString = dateFormatter.string(from: Date().addingTimeInterval(86400))
         let modificationDateString = dateFormatter.string(from: Date())
-        let csvString = "12345,Test Task,important,\(deadlineString),true,\(creationDateString),FF5733,Work,\(modificationDateString)"
+        let csvString = """
+            12345,Test Task,important,\(deadlineString),true,\
+            \(creationDateString),FF5733,Work,\(modificationDateString)
+            """
         
         if let item = TodoItem.fromCSV(csvString) {
             XCTAssertEqual(item.id, "12345")
@@ -209,7 +249,7 @@ final class TodoItemTests: XCTestCase {
             XCTFail("Failed to parse TodoItem from CSV")
         }
     }
-
+    
     func testInvalidJSONParsing() {
         let invalidJSON: [String: Any] = [
             "id": "12345",
@@ -219,29 +259,57 @@ final class TodoItemTests: XCTestCase {
         let item = TodoItem.parse(json: invalidJSON)
         XCTAssertNil(item, "Parsing should fail with invalid date format")
     }
-
+    
     func testInvalidCSVParsing() {
         let invalidCSV = "12345,Test Task,important,invalid_date,true,invalid_date,invalid_date,FF5733,Work"
         let item = TodoItem.fromCSV(invalidCSV)
         XCTAssertNil(item, "Parsing should fail with invalid date format in CSV")
     }
+}
 
+class TodoItemTestsEdgeCases: XCTestCase {
+    private let dateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.timeZone = .current
+        return formatter
+    }()
+    
     func testTodoItemToCSVWithComma() {
         let deadline = Date().addingTimeInterval(86400)
         let creationDate = Date().addingTimeInterval(-86400)
         let modificationDate = Date()
-        let item = TodoItem(id: "12345", text: "Test, with comma", priority: .important, deadline: deadline, isCompleted: true, creationDate: creationDate, modificationDate: modificationDate, hexColor: "FF5733", category: .hobby)
+        let item = TodoItem(
+            id: "12345",
+            text: "Test, with comma",
+            priority: .important,
+            deadline: deadline,
+            isCompleted: true,
+            creationDate: creationDate,
+            modificationDate: modificationDate,
+            hexColor: "FF5733",
+            category: .hobby
+        )
         let csvString = item.csv
-        let expectedCSV = "12345,\"Test, with comma\",important,\(dateFormatter.string(from: deadline)),true,\(dateFormatter.string(from: creationDate)),FF5733,Hobby,\(dateFormatter.string(from: modificationDate))"
+        let expectedCSV = """
+            12345,\"Test, with comma\",important,\
+            \(dateFormatter.string(from: deadline)),true,\
+            \(dateFormatter.string(from: creationDate)),FF5733,\
+            Hobby,\(dateFormatter.string(from: modificationDate))
+            """
         
         XCTAssertEqual(csvString, expectedCSV, "CSV field text with comma is not supported")
     }
-
+    
     func testTodoItemFromCSVWithComma() {
         let creationDateString = dateFormatter.string(from: Date().addingTimeInterval(-86400))
         let deadlineString = dateFormatter.string(from: Date().addingTimeInterval(86400))
         let modificationDateString = dateFormatter.string(from: Date())
-        let csvString = "12345,\"Test, with comma\",important,\(deadlineString),true,\(creationDateString),FF5733,Hobby,\(modificationDateString)"
+        let csvString = """
+            12345,"Test, with comma",important,\
+            \(deadlineString),true,\
+            \(creationDateString),FF5733,\
+            Hobby,\(modificationDateString)
+            """
         
         if let item = TodoItem.fromCSV(csvString) {
             XCTAssertEqual(item.id, "12345")
@@ -257,6 +325,4 @@ final class TodoItemTests: XCTestCase {
             XCTFail("Failed to parse TodoItem from CSV when text contains comma")
         }
     }
-
-    
 }

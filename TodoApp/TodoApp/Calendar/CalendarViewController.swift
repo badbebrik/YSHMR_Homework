@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import CocoaLumberjackSwift
 
 final class CalendarViewController: UIViewController {
     // MARK: - Fields
@@ -26,7 +27,7 @@ final class CalendarViewController: UIViewController {
         }
     }
     
-    private let plusButton: UIButton = UIButton()
+    private let plusButton = UIButton()
     
     private lazy var calendar: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -69,6 +70,7 @@ final class CalendarViewController: UIViewController {
         self.title = "Мои дела"
         self.navigationItem.hidesBackButton = false
         configureUI()
+        DDLogInfo("CalendarViewController loaded")
     }
     
     // MARK: - Configuration
@@ -111,27 +113,35 @@ final class CalendarViewController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc
-    private func plusButtonTapped() {
+    @objc private func plusButtonTapped() {
         showingDetailView = true
+        DDLogInfo("Plus button tapped, showing detail view")
     }
     
     private func presentDetailView() {
         let todoDetailViewModel = TodoDetailViewModel(todoItem: nil, listViewModel: TodoListViewModel())
-        let detailView = TodoDetailViewWrapper(isShowed: Binding(get: {
-            self.showingDetailView
-        }, set: {
-            self.showingDetailView = $0
-        }), viewModel: todoDetailViewModel)
+        let detailView = TodoDetailViewWrapper(
+            isShowed: Binding(
+                get: {
+                    self.showingDetailView
+                },
+                set: {
+                    self.showingDetailView = $0
+                }
+            ),
+            viewModel: todoDetailViewModel
+        )
         hostingController = UIHostingController(rootView: detailView)
         if let hostingController = hostingController {
             present(hostingController, animated: true, completion: nil)
+            DDLogInfo("Presenting detail view")
         }
     }
     
     private func dismissDetailView() {
         hostingController?.dismiss(animated: true, completion: nil)
         hostingController = nil
+        DDLogInfo("Dismissing detail view")
     }
 }
 
@@ -139,12 +149,14 @@ final class CalendarViewController: UIViewController {
 // MARK: - UITableViewDelegate
 extension CalendarViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        DDLogDebug("Leading swipe action for row at \(indexPath)")
         let item = viewModel.todoItems[indexPath.section].1[indexPath.row] as TodoItem
         if !item.isCompleted {
-            let doneAction = UIContextualAction(style: .normal, title: "", handler: { (action, sourceView, completionHandler) in
+            let doneAction = UIContextualAction(style: .normal, title: "") { _, _, completionHandler in
                 self.viewModel.changeDone(item, value: true)
                 completionHandler(true)
-            })
+            }
+
             doneAction.backgroundColor = .green
             doneAction.image = UIImage(systemName: "checkmark.circle.fill")
             let swipeConfiguration = UISwipeActionsConfiguration(actions: [doneAction])
@@ -155,12 +167,13 @@ extension CalendarViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        DDLogDebug("Trailing swipe action for row at \(indexPath)")
         let item = viewModel.todoItems[indexPath.section].1[indexPath.row] as TodoItem
         
-        let notDoneAction = UIContextualAction(style: .normal, title: "", handler: { (action, sourceView, completionHandler) in
+        let notDoneAction = UIContextualAction(style: .normal, title: "") { _, _, completionHandler in
             self.viewModel.changeDone(item, value: false)
             completionHandler(true)
-        })
+        }
         notDoneAction.backgroundColor = .yellow
         notDoneAction.image = UIImage(systemName: "xmark.circle.fill")
         let swipeConfiguration = UISwipeActionsConfiguration(actions: [notDoneAction])
@@ -193,24 +206,26 @@ extension CalendarViewController: UITableViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension CalendarViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        DDLogDebug("Collection view item selected at \(indexPath)")
         table.scrollToRow(at: IndexPath(item: 0, section: indexPath.item), at: .top, animated: true)
     }
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            if scrollView == calendar { return }
-            if (scrollView.isTracking || scrollView.isDragging || scrollView.isDecelerating) {
-                if let firstVisibleRowIndex = table.indexPathsForVisibleRows?.first {
-                    let indexPath = IndexPath(item: firstVisibleRowIndex.section, section: 0)
-                    calendar.scrollToItem(at: indexPath, at: .left, animated: true)
-                    self.calendar.selectItem(
-                        at: indexPath,
-                        animated: true,
-                        scrollPosition: UICollectionView.ScrollPosition.left
-                    )
-                }
+        if scrollView == calendar { return }
+        if scrollView.isTracking || scrollView.isDragging || scrollView.isDecelerating {
+            DDLogDebug("Scroll view did scroll")
+            if let firstVisibleRowIndex = table.indexPathsForVisibleRows?.first {
+                let indexPath = IndexPath(item: firstVisibleRowIndex.section, section: 0)
+                calendar.scrollToItem(at: indexPath, at: .left, animated: true)
+                self.calendar.selectItem(
+                    at: indexPath,
+                    animated: true,
+                    scrollPosition: UICollectionView.ScrollPosition.left
+                )
             }
         }
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -228,15 +243,14 @@ extension CalendarViewController: UICollectionViewDataSource {
         calendarCell.layer.cornerRadius = 16
         return calendarCell
     }
-
 }
 
 extension CalendarViewController: CalendarViewModelDelegate {
-    func dataDidUpdate() {
+    nonisolated func dataDidUpdate() {
         DispatchQueue.main.async {
             self.table.reloadData()
             self.calendar.reloadData()
+            DDLogInfo("Data updated, reloading table and calendar")
         }
     }
 }
-

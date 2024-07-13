@@ -33,8 +33,6 @@ struct CategoryPickerView: View {
 }
 
 
-
-
 #Preview {
     CategoryPickerView(category: .constant(.hobby))
 }

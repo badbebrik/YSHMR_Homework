@@ -65,13 +65,15 @@ extension TodoItem {
         }
         
         let pattern = "(?<=^|,)(\"(?:[^\"]|\"\")*\"|[^,]*)"
-        let regex = try! NSRegularExpression(pattern: pattern, options: [])
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else { return nil }
+        
         let matches = regex.matches(in: csv, options: [], range: NSRange(csv.startIndex..., in: csv))
         
-        let components = matches.map { match -> String in
-            let range = Range(match.range, in: csv)!
-            return String(csv[range])
-        }.map(unescape)
+        let components = matches.compactMap { match -> String? in
+            let range = Range(match.range, in: csv)
+            return range.map { String(csv[$0]) }
+        }
+        .compactMap { unescape($0) }
         
         guard components.count >= 8 else { return nil }
         
@@ -97,6 +99,16 @@ extension TodoItem {
         let modificationDateString = components.count > 8 ? components[8] : ""
         let modificationDate = modificationDateString.isEmpty ? nil : formatter.date(from: modificationDateString)
         
-        return TodoItem(id: id, text: text, priority: priority, deadline: deadline, isCompleted: isCompleted, creationDate: creationDate, modificationDate: modificationDate, hexColor: hexColor, category: category)
+        return TodoItem(
+            id: id,
+            text: text,
+            priority: priority,
+            deadline: deadline,
+            isCompleted: isCompleted,
+            creationDate: creationDate,
+            modificationDate: modificationDate,
+            hexColor: hexColor,
+            category: category
+        )
     }
 }
